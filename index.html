@@ -43,12 +43,14 @@
         }
         .music-toggle:hover { border-color: var(--accent-warm); transform: translateY(-2px); }
         .music-toggle.playing { background: rgba(232, 184, 138, 0.14); border-color: var(--accent-warm); box-shadow: 0 0 20px rgba(232, 184, 138, 0.25); }
-        .eq-bars { display: inline-flex; align-items: flex-end; height: 12px; gap: 2px; flex-shrink: 0; }
-        .eq-bars span { width: 2px; height: 4px; background: var(--accent-warm); border-radius: 2px; transition: height 0.2s ease; }
+        .eq-bars { display: inline-flex; align-items: center; height: 14px; gap: 3px; flex-shrink: 0; }
+        .eq-bars span { width: 2.5px; height: 7px; background: var(--accent-warm); border-radius: 2px; transition: height 0.2s ease; }
+        .eq-bars span:nth-child(2) { height: 12px; }
+        .eq-bars span:nth-child(3) { height: 5px; }
         .music-toggle.playing .eq-bars span { animation: eqBounce 0.9s ease-in-out infinite alternate; }
         .music-toggle.playing .eq-bars span:nth-child(2) { animation-delay: 0.25s; }
         .music-toggle.playing .eq-bars span:nth-child(3) { animation-delay: 0.5s; }
-        @keyframes eqBounce { 0% { height: 3px; } 100% { height: 12px; } }
+        @keyframes eqBounce { 0% { height: 3px; } 100% { height: 13px; } }
         .ambient-particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
         .particle { position: absolute; background: var(--accent-warm); border-radius: 50%; opacity: 0; filter: blur(1px); animation: floatUp linear infinite; }
         @keyframes floatUp {
@@ -57,27 +59,33 @@
             80% { opacity: 0.25; }
             100% { transform: translateY(-10vh) scale(1.1); opacity: 0; }
         }
-        .container { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; padding: 80px 24px 95px; }
-        header { text-align: center; margin-bottom: 52px; }
+        .container { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; padding: 56px 24px 95px; }
+        header { text-align: center; margin-bottom: 42px; }
         .date-badge {
             display: inline-block; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
             color: var(--accent-warm); border: 1px solid var(--border-soft); padding: 6px 16px;
-            border-radius: 999px; margin-bottom: 22px; background: rgba(232, 184, 138, 0.04);
+            border-radius: 999px; margin-bottom: 20px; background: rgba(232, 184, 138, 0.04);
         }
-        h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 500; line-height: 1.15; margin-bottom: 16px; color: #fffaf2; }
+        h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 500; line-height: 1.15; margin-bottom: 14px; color: #fffaf2; }
         .subtitle { color: var(--text-muted); font-size: 1rem; max-width: 540px; margin: 0 auto; }
-        .section-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 500; text-align: center; margin-bottom: 10px; color: #fffaf2; }
-        .section-hint { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; }
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-bottom: 56px; }
-        .memory-card {
-            background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: 20px;
-            padding: 26px 22px; cursor: pointer; transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            position: relative; overflow: hidden; min-height: 175px; display: flex; flex-direction: column; justify-content: space-between;
+        .about-section {
+            background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: 24px;
+            padding: 34px 26px; margin-bottom: 44px; backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
         }
-        .memory-card:hover { background: var(--bg-card-hover); border-color: rgba(232, 184, 138, 0.4); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
+        .section-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 500; text-align: center; margin-bottom: 8px; color: #fffaf2; }
+        .section-hint { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 28px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        .memory-card {
+            background: rgba(18, 16, 19, 0.52); border: 1px solid rgba(245, 210, 175, 0.12); border-radius: 18px;
+            padding: 24px 20px; cursor: pointer; transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative; overflow: hidden; min-height: 165px; display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .memory-card:hover { background: rgba(255, 248, 240, 0.06); border-color: rgba(232, 184, 138, 0.4); transform: translateY(-3px); box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25); }
+        .memory-card > div:first-child { display: flex; flex-direction: column; height: 100%; }
         .card-tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-warm); margin-bottom: 10px; }
-        .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 600; color: #fffaf2; margin-bottom: 8px; }
-        .card-preview { font-size: 0.85rem; color: var(--text-muted); }
+        .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.42rem; font-weight: 600; color: #fffaf2; margin-bottom: 8px; line-height: 1.25; }
+        .card-preview { font-size: 0.83rem; color: var(--text-muted); margin-top: auto; padding-top: 10px; }
         .card-secret { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.5s ease, margin-top 0.4s ease; font-size: 0.92rem; color: var(--text-main); border-top: 1px solid rgba(245, 210, 175, 0.12); }
         .memory-card.open .card-secret { max-height: 220px; opacity: 1; margin-top: 14px; padding-top: 14px; }
         .memory-card.open .card-preview { display: none; }
@@ -174,6 +182,7 @@
         .gift-reveal h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; color: #fffaf2; margin-bottom: 8px; }
         .gift-reveal p { color: var(--text-main); font-size: 0.98rem; }
         @media (max-width: 560px) {
+            .about-section { padding: 26px 18px; }
             .timer-grid { grid-template-columns: repeat(2, 1fr); }
             .photos-grid { grid-template-columns: 1fr; }
             .photo-frame img { height: 320px; }
@@ -201,7 +210,8 @@
             <p class="subtitle">Сегодня твой день, малыш. Небольшой уголок в сети, собранный к твоим 26 — о том, какой ты классный, и с самыми тёплыми словами для тебя.</p>
         </header>
 
-        <section>
+        <!-- Карточки о нём в общей рамке -->
+        <section class="about-section">
             <h2 class="section-title">Немного о тебе</h2>
             <p class="section-hint">Нажми на любую карточку, чтобы открыть</p>
 
@@ -241,6 +251,7 @@
             </div>
         </section>
 
+        <!-- Ваши фото -->
         <section class="photos-grid">
             <div class="photo-frame">
                 <img src="photo1.png" alt="Мы">
@@ -250,6 +261,7 @@
             </div>
         </section>
 
+        <!-- Живой счетчик прямо под фото -->
         <section class="timer-section">
             <div class="timer-label">Мы вместе уже <span>с 21 июля 2022 года, 20:27</span></div>
             <div class="timer-grid">
@@ -272,12 +284,14 @@
             </div>
         </section>
 
+        <!-- Напоминания от тебя -->
         <section class="miss-you-box">
             <div class="miss-you-label">Напоминания от меня</div>
             <div class="miss-you-text" id="noteText">«Я безумно рада, что ты у меня есть — ты для меня ближе всех»</div>
             <button class="soft-btn" onclick="nextLoveNote()">Ещё одно напоминание ↻</button>
         </section>
 
+        <!-- Твоё поздравление -->
         <section class="letter-box">
             <p>С днём рождения, Любимый. Тебе сегодня 26, и мне до сих пор не верится, что из тех самых первых переписок в 2022-м выросло целых четыре года нашей истории)</p>
             <p>За это время мы оба сильно изменились, повзрослели, прошли через кучу всего, но одно осталось неизменным — рядом с тобой мне хорошо. Даже когда между нами города и километры, ты остаёшься для меня самым близким человеком, моей опорой и тем, с кем хочется делиться вообще всем — от глупых мемов до самых сложных мыслей) 😘😘😘❤️❤️</p>
@@ -285,6 +299,7 @@
             <div class="signature">Твоя Влада ♡</div>
         </section>
 
+        <!-- Тортик со свечкой -->
         <section class="candle-section">
             <div class="cake-wrapper" id="candle" onclick="blowCandle()" title="Нажми, чтобы задуть свечку">
                 <div class="smoke"></div>
@@ -298,6 +313,7 @@
             <div class="candle-caption" id="candleCaption">Загадай желание на свои 26, милый, и нажми на тортик, чтобы задуть свечу ✨</div>
         </section>
 
+        <!-- Финальный сюрприз -->
         <section class="gift-area">
             <button class="gift-btn" id="giftBtn" onclick="revealGift()">Открыть небольшой бонус</button>
             <div class="gift-reveal" id="giftBox">
