@@ -99,4 +99,304 @@
         .miss-you-text.switching { opacity: 0; transform: translateY(6px); }
         .soft-btn { background: rgba(232, 184, 138, 0.08); color: var(--accent-warm); border: 1px solid rgba(232, 184, 138, 0.35); padding: 11px 24px; border-radius: 999px; font-family: 'Montserrat', sans-serif; font-size: 0.84rem; cursor: pointer; transition: all 0.3s ease; }
         .soft-btn:hover { background: rgba(232, 184, 138, 0.18); border-color: var(--accent-warm); transform: translateY(-2px); }
-        .letter-box { background: linear-gradient(145deg, rgba(255, 248, 240, 0.05), rgba(255, 248, 240, 0.02)); border: 1px solid var(--border-soft); border-radius: 24px; padding: 40px 32px; margin-bottom:
+        .letter-box { background: linear-gradient(145deg, rgba(255, 248, 240, 0.05), rgba(255, 248, 240, 0.02)); border: 1px solid var(--border-soft); border-radius: 24px; padding: 40px 32px; margin-bottom: 56px; position: relative; }
+        .letter-box p { margin-bottom: 18px; font-size: 1.02rem; color: #ebe4da; }
+        .letter-box p:last-of-type { margin-bottom: 0; }
+        .signature { margin-top: 26px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.45rem; color: var(--accent-warm); text-align: right; }
+        .candle-section { text-align: center; margin-bottom: 52px; padding: 30px 20px; border-radius: 24px; background: rgba(255, 248, 240, 0.02); border: 1px dashed rgba(245, 210, 175, 0.16); }
+        .candle-wrapper { position: relative; width: 60px; height: 110px; margin: 10px auto 18px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+        .flame { width: 16px; height: 28px; background: radial-gradient(ellipse at bottom, #fff7d6 0%, #ffb74d 55%, #ff7043 100%); border-radius: 50% 50% 35% 35%; box-shadow: 0 0 22px #ffb74d, 0 0 45px rgba(255, 183, 77, 0.45); animation: flicker 1.6s ease-in-out infinite alternate; transform-origin: bottom center; transition: opacity 0.4s ease, transform 0.4s ease; }
+        .candle-wrapper.blown .flame { opacity: 0; transform: scale(0.2); pointer-events: none; }
+        .smoke { position: absolute; top: 12px; width: 6px; height: 24px; background: rgba(220, 215, 210, 0.35); border-radius: 50%; filter: blur(4px); opacity: 0; }
+        .candle-wrapper.blown .smoke { animation: smokeRise 2.2s ease-out forwards; }
+        @keyframes smokeRise { 0% { opacity: 0.7; transform: translateY(0) scaleX(1); } 100% { opacity: 0; transform: translateY(-35px) scaleX(2.5); } }
+        @keyframes flicker { 0% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.06, 0.96) rotate(2deg); } 100% { transform: scale(0.97, 1.04) rotate(-1deg); } }
+        .wick { width: 2px; height: 8px; background: #5a4a42; margin-top: -2px; }
+        .candle-body { width: 28px; height: 62px; background: linear-gradient(180deg, #f7ead9 0%, #d8c3ad 100%); border-radius: 6px 6px 4px 4px; box-shadow: inset -4px 0 8px rgba(0, 0, 0, 0.15); }
+        .candle-caption { font-size: 0.92rem; color: var(--text-muted); transition: color 0.4s ease; }
+        .candle-caption.wished { color: var(--accent-warm); font-weight: 400; }
+        .gift-area { text-align: center; }
+        .gift-btn { background: transparent; color: var(--accent-warm); border: 1px solid var(--accent-warm); padding: 16px 36px; font-family: 'Montserrat', sans-serif; font-size: 0.92rem; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 999px; cursor: pointer; transition: all 0.35s ease; box-shadow: 0 0 25px rgba(232, 184, 138, 0.12); }
+        .gift-btn:hover { background: var(--accent-warm); color: var(--bg-dark); box-shadow: 0 0 38px var(--accent-glow); transform: scale(1.03); }
+        .gift-reveal { margin-top: 28px; padding: 30px 24px; border-radius: 20px; background: rgba(232, 184, 138, 0.09); border: 1px solid rgba(232, 184, 138, 0.4); display: none; animation: popIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.94) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .gift-reveal h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; color: #fffaf2; margin-bottom: 8px; }
+        .gift-reveal p { color: var(--text-main); font-size: 0.98rem; }
+        @media (max-width: 560px) {
+            .timer-grid { grid-template-columns: repeat(2, 1fr); }
+            .letter-box { padding: 28px 20px; }
+            .music-toggle { top: 14px; right: 14px; padding: 8px 14px; font-size: 0.72rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+    <div class="ambient-particles" id="particles"></div>
+
+    <audio id="bgAudio" src="song.mp3" loop preload="auto"></audio>
+
+    <button class="music-toggle" id="musicBtn" onclick="toggleSong()">
+        <span class="eq-bars"><span></span><span></span><span></span></span>
+        <span id="musicText">Asper X — Я буду любить тебя вечно</span>
+    </button>
+
+    <div class="container">
+        <header>
+            <div class="date-badge">19 ноября • 26 лет</div>
+            <h1>С Днём Рождения, мой Котик</h1>
+            <p class="subtitle">Маленькое пространство, собранное специально для тебя, малыш — о нашем времени, моментах и том, как много ты для меня значишь.</p>
+        </header>
+
+        <section class="timer-section">
+            <div class="timer-label">Мы вместе с <span>21 июля 2022 года, 20:27</span></div>
+            <div class="timer-grid">
+                <div class="time-box">
+                    <div class="time-value" id="days">0</div>
+                    <div class="time-unit" id="days-label">дней</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="hours">00</div>
+                    <div class="time-unit" id="hours-label">часов</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="minutes">00</div>
+                    <div class="time-unit" id="minutes-label">минут</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="seconds">00</div>
+                    <div class="time-unit" id="seconds-label">секунд</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Наши маленькие якоря</h2>
+            <p class="section-hint">Нажми на любую карточку, чтобы открыть</p>
+
+            <div class="cards-grid">
+                <div class="memory-card" onclick="this.classList.toggle('open')">
+                    <div>
+                        <div class="card-tag">Точка отсчёта</div>
+                        <div class="card-title">21.07.2022 • 20:27</div>
+                        <div class="card-preview">Нажми, чтобы вспомнить...</div>
+                    </div>
+                    <div class="card-secret">
+                        Тот самый момент, милый, с которого всё началось. С тех пор прошло уже больше четырёх лет, но я до сих пор помню, как тепло стало от твоих слов.
+                    </div>
+                </div>
+
+                <div class="memory-card" onclick="this.classList.toggle('open')">
+                    <div>
+                        <div class="card-tag">На расстоянии</div>
+                        <div class="card-title">Километры — не преграда</div>
+                        <div class="card-preview">Нажми, чтобы прочитать...</div>
+                    </div>
+                    <div class="card-secret">
+                        Даже когда между нами города, твоя поддержка, котик, наши ночные разговоры и ощущение, что ты рядом, делают каждый день спокойнее и светлее.
+                    </div>
+                </div>
+
+                <div class="memory-card" onclick="this.classList.toggle('open')">
+                    <div>
+                        <div class="card-tag">О тебе</div>
+                        <div class="card-title">За что я тебя ценю</div>
+                        <div class="card-preview">Нажми, чтобы открыть...</div>
+                    </div>
+                    <div class="card-secret">
+                        За твою искренность, чувство юмора, умение выслушать и за то, что рядом с тобой, любимый, можно быть настоящей — без масок и лишних слов.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="miss-you-box">
+            <div class="miss-you-label">Нажми, если соскучился</div>
+            <div class="miss-you-text" id="noteText">«Даже на расстоянии ты остаёшься моим самым любимым котиком»</div>
+            <button class="soft-btn" onclick="nextLoveNote()">Ещё одна причина ↻</button>
+        </section>
+
+        <section class="letter-box">
+            <p>С днём рождения, Любимый. Тебе сегодня 26, и мне до сих пор не верится, что из тех самых первых переписок в 2022-м выросло целых четыре года нашей истории)</p>
+            <p>За это время мы оба сильно изменились, повзрослели, прошли через кучу всего, но одно осталось неизменным — рядом с тобой мне хорошо. Даже когда между нами города и километры, ты остаёшься для меня самым близким человеком, моей опорой и тем, с кем хочется делиться вообще всем — от глупых мемов до самых сложных мыслей) 😘😘😘❤️❤️</p>
+            <p>Я очень хочу, чтобы в твои 26 было меньше поводов для нервов и больше дней, когда ты просто выдыхаешь и чувствуешь, что всё идёт так, как надо. Пусть у тебя получаются все твои планы, пусть хватает сил, терпения на всё-всё в этой жизни. Ещё добавлю, что главное — здоровья, надеюсь, по жизни ты будешь очень счастливым. Я очень тебя люблю и всегда на твоей стороне))</p>
+            <div class="signature">Твоя Влада ♡</div>
+        </section>
+
+        <section class="candle-section">
+            <div class="candle-wrapper" id="candle" onclick="blowCandle()" title="Нажми, чтобы задуть">
+                <div class="smoke"></div>
+                <div class="flame"></div>
+                <div class="wick"></div>
+                <div class="candle-body"></div>
+            </div>
+            <div class="candle-caption" id="candleCaption">Загадай желание на свои 26, милый, и нажми на огонёк, чтобы задуть свечу ✨</div>
+        </section>
+
+        <section class="gift-area">
+            <button class="gift-btn" id="giftBtn" onclick="revealGift()">Открыть небольшой бонус</button>
+            <div class="gift-reveal" id="giftBox">
+                <h3>+1000 ₽ на баланс Steam 🎮</h3>
+                <p>Чтобы было во что залипнуть свободными вечерами, малыш. Проверяй аккаунт (или личку) — подарок уже ждёт тебя!</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const startDate = new Date(2022, 6, 21, 20, 27, 0);
+
+        function declension(number, titles) {
+            const cases = [2, 0, 1, 1, 1, 2];
+            return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / 1000 / 60) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+                document.getElementById('days-label').textContent = declension(days, ['день', 'дня', 'дней']);
+                document.getElementById('hours-label').textContent = declension(hours, ['час', 'часа', 'часов']);
+                document.getElementById('minutes-label').textContent = declension(minutes, ['минута', 'минуты', 'минут']);
+                document.getElementById('seconds-label').textContent = declension(seconds, ['секунда', 'секунды', 'секунд']);
+            }
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        const audio = document.getElementById('bgAudio');
+        audio.volume = 0.45;
+
+        function toggleSong() {
+            const btn = document.getElementById('musicBtn');
+            const text = document.getElementById('musicText');
+
+            if (audio.paused) {
+                audio.play().then(() => {
+                    btn.classList.add('playing');
+                    text.textContent = 'Пауза • Asper X';
+                }).catch(() => {
+                    alert('Убедись, что файл song.mp3 загружен в корень репозитория рядом с index.html');
+                });
+            } else {
+                audio.pause();
+                btn.classList.remove('playing');
+                text.textContent = 'Asper X — Я буду любить тебя вечно';
+            }
+        }
+
+        const loveNotes = [
+            "«Даже на расстоянии ты остаёшься моим самым любимым котиком»",
+            "«Я всегда улыбаюсь, малыш, когда вижу уведомление от тебя»",
+            "«Спасибо, милый, что с тобой можно обсудить вообще всё на свете»",
+            "«Четыре года пролетели как один миг, потому что с тобой по-настоящему хорошо»",
+            "«Ты моя главная опора и спокойствие в любой непонятной ситуации, любимый»",
+            "«Обожаю наши ночные разговоры, котик, когда совсем не хочется ложиться спать»",
+            "«Я очень тобой горжусь, малыш, и верю в тебя больше, чем ты сам»",
+            "«С тобой даже обычные вечера становятся особенными, милый»",
+            "«21 июля 2022 в 20:27 — одно из лучших событий в моей жизни»",
+            "«Я всегда на твоей стороне, любимый, что бы ни случилось ❤️»"
+        ];
+        let noteIndex = 0;
+
+        function nextLoveNote() {
+            const el = document.getElementById('noteText');
+            el.classList.add('switching');
+            setTimeout(() => {
+                noteIndex = (noteIndex + 1) % loveNotes.length;
+                el.textContent = loveNotes[noteIndex];
+                el.classList.remove('switching');
+            }, 260);
+        }
+
+        function blowCandle() {
+            const candle = document.getElementById('candle');
+            const caption = document.getElementById('candleCaption');
+            if (!candle.classList.contains('blown')) {
+                candle.classList.add('blown');
+                caption.textContent = "Желание загадано, котик — пусть оно обязательно сбудется ✨";
+                caption.classList.add('wished');
+                launchConfetti(45);
+            }
+        }
+
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confettiPieces = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function launchConfetti(count = 110) {
+            const colors = ['#e8b88a', '#fff3d6', '#d49a6a', '#f7d7b5', '#ff9e9e'];
+            for (let i = 0; i < count; i++) {
+                confettiPieces.push({
+                    x: canvas.width / 2 + (Math.random() - 0.5) * 260,
+                    y: canvas.height * 0.65,
+                    vx: (Math.random() - 0.5) * 11,
+                    vy: -Math.random() * 11 - 4,
+                    size: Math.random() * 6 + 3,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    alpha: 1,
+                    gravity: 0.22
+                });
+            }
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiPieces.forEach((p, i) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += p.gravity;
+                p.alpha -= 0.011;
+
+                ctx.globalAlpha = Math.max(p.alpha, 0);
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (p.alpha <= 0) confettiPieces.splice(i, 1);
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateConfetti);
+        }
+        animateConfetti();
+
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 22; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            const size = Math.random() * 4 + 2;
+            p.style.width = `${size}px`;
+            p.style.height = `${size}px`;
+            p.style.left = `${Math.random() * 100}%`;
+            p.style.animationDuration = `${Math.random() * 14 + 10}s`;
+            p.style.animationDelay = `${Math.random() * 10}s`;
+            particlesContainer.appendChild(p);
+        }
+
+        function revealGift() {
+            const box = document.getElementById('giftBox');
+            const btn = document.getElementById('giftBtn');
+            box.style.display = 'block';
+            btn.style.display = 'none';
+            launchConfetti(130);
+        }
+    </script>
+</body>
+</html>
